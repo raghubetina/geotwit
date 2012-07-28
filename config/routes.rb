@@ -1,9 +1,11 @@
 Geotwit::Application.routes.draw do
-  resources :tweeted_words
-
-  root to: 'TweetedWords#index'
+  root to: 'Pages#home'
   
-  get "pages/home"
+  post '/tweeted_words/fetch' => 'TweetedWords#fetch', :as => :fetch_tweets
+  
+  resources :tweeted_words
+  
+  get 'pages/home'
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

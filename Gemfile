@@ -1,5 +1,7 @@
 source 'https://rubygems.org'
 
+gem 'haversine'
+
 gem 'rails', '3.2.6'
 
 # Bundle edge Rails instead:

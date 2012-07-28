@@ -1,3 +1,8 @@
+<%= form_tag tweeted_words_url, :method => 'get' do %>
+  <%= text_field_tag :address, nil, :placeholder => "Address" %>
+  <%= submit_tag "Fetch Tweets" %>
+<% end %>
+
 <h1>Listing tweeted_words</h1>
 
 <h3><%= @tweeted_words.count %></h3>

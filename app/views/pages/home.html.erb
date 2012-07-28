@@ -1,9 +1,4 @@
-<%= @response %>
-
-<h1><%= @tweets.count %> tweets found</h1>
-<h1><%= @tweets.count { |t| t["geo"].present? } %> geocoded tweets found</h1>
-<ol>
-<% @tweets.select { |t| t["geo"].present? }.each do |result| %>
-  <li>"<%= result["text"] %>" <%= time_ago_in_words(result["created_at"]) %> ago</li>
+<%= form_tag fetch_tweets_url do %>
+  <%= text_field_tag :address, nil, :placeholder => "Address" %>
+  <%= submit_tag "Fetch Tweets" %>
 <% end %>
-</ol>
