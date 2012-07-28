@@ -3,7 +3,9 @@ class TweetedWordsController < ApplicationController
   # GET /tweeted_words.json
   def index
     @tweeted_words = TweetedWord.all
-
+    @frequencies = @tweeted_words.group_by(&:word)
+    @frequencies_sorted = @frequencies.sort_by { |key, value| value.count }
+    
     respond_to do |format|
       format.html # index.html.erb
       format.json { render json: @tweeted_words }

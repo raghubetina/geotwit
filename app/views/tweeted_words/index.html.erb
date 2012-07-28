@@ -2,11 +2,11 @@
 
 <h3><%= @tweeted_words.count %></h3>
 
-<ul>
-<% @tweeted_words.group_by(&:word).each do |key, value| %>
-  <li><%= key %>: <%= value.count %></li>
-<% end %>
-</ul>
+<ol>
+  <% @frequencies_sorted.reverse.each do |word_array|  %>
+    <li><%= word_array[0] %>: <%= word_array[1].count %></li>
+  <% end %>
+</ol>
 
 <table>
   <tr>
