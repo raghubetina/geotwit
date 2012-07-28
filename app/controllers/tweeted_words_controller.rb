@@ -38,7 +38,6 @@ class TweetedWordsController < ApplicationController
   end
   
   def index
-    
     if address = params[:address]
       if latlng = geocode(address)
         lat = latlng[0]
@@ -60,11 +59,14 @@ class TweetedWordsController < ApplicationController
       
       @tweeted_words = TweetedWord.where("lat BETWEEN ? AND ?", min_lat, max_lat).where("lng BETWEEN ? AND ?", min_lng, max_lng)
     else
-      @tweeted_words = TweetedWord.all
+      @tweeted_words = TweetedWord.limit(100)
     end
     
-    @frequencies = @tweeted_words.group_by(&:word)
-    @frequencies_sorted = @frequencies.sort_by { |key, value| value.count }
+    @bins = @tweeted_words.group_by(&:word)
+    @frequencies = @bins.map { |key, value| { key => value.length } }
+    @frequencies_sorted = @frequencies.sort { |a, b| b.first[1] <=> a.first[1] }
+    
+    @frequenices_filtered = @frequencies_sorted.reject { |h| h.first[1] < 3 }
     
     respond_to do |format|
       format.html # index.html.erb

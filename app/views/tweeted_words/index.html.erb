@@ -1,49 +1,62 @@
+<%- model_class = TweetedWord.new.class -%>
+
 <%= form_tag tweeted_words_url, :method => 'get' do %>
   <%= text_field_tag :address, params[:address], :placeholder => "Words near here" %>
   <%= text_field_tag :radius, params[:radius], :placeholder => "Within this many meters" %>
-  <%= submit_tag "Search Tweets" %>
+  <%= submit_tag "Search Tweets", :class => "btn btn-success" %>
 <% end %>
 
 <%= form_tag fetch_tweets_url do %>
   <%= text_field_tag :address, params[:address], :placeholder => "Words near here" %>
   <%= text_field_tag :radius, params[:radius], :placeholder => "Within this many meters" %>
-  <%= submit_tag "Fetch Tweets" %>
+  <%= submit_tag "Fetch Tweets", :class => "btn btn-danger"  %>
 <% end %>
 
-<h1>Frequencies (<%= @tweeted_words.count %>)</h1>
-<ol>
-  <% @frequencies_sorted.reverse.each do |word_array|  %>
-    <li><%= word_array[0] %>: <%= word_array[1].count %></li>
-  <% end %>
-</ol>
-
-
-<h1>All Words Tweeted (<%= TweetedWord.count %>)</h1>
-
-<table>
-  <tr>
-    <th>Word</th>
-    <th>Lat</th>
-    <th>Lon</th>
-    <th>Tweet ID</th>
-    <th></th>
-    <th></th>
-    <th></th>
-  </tr>
-
-<% TweetedWord.all.each do |tweeted_word| %>
-  <tr>
-    <td><%= tweeted_word.word %></td>
-    <td><%= tweeted_word.lat %></td>
-    <td><%= tweeted_word.lng %></td>
-    <td><%= tweeted_word.tweet_id %></td>
-    <td><%= link_to 'Show', tweeted_word %></td>
-    <td><%= link_to 'Edit', edit_tweeted_word_path(tweeted_word) %></td>
-    <td><%= link_to 'Destroy', tweeted_word, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-  </tr>
+<h1 class="header">Most Frequently Tweeted Words (<%= @frequenices_filtered.count %>)</h1>
+<% max = @frequenices_filtered.map { |hash| hash.first[1] }.max %>
+<% @frequenices_filtered.each do |word_hash|  %>
+  <h3><%= word_hash.first[0] %> <span class="label"><%= word_hash.first[1] %></span></h3>
+  <div class="progress">
+  <div class="bar"
+       style="width: <%= (word_hash.first[1].to_f/max)*100 %>%;"></div>
+  </div>
 <% end %>
+
+
+
+<h1 class="header">All Tweeted Words (<%= @tweeted_words.count %>)</h1>
+
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th><%= model_class.human_attribute_name(:id) %></th>
+      <th><%= model_class.human_attribute_name(:word) %></th>
+      <th><%= model_class.human_attribute_name(:lat) %></th>
+      <th><%= model_class.human_attribute_name(:lng) %></th>
+      <th><%= model_class.human_attribute_name(:tweet_id) %></th>
+      <th><%= model_class.human_attribute_name(:created_at) %></th>
+      <th><%=t '.actions', :default => t("helpers.actions") %></th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @tweeted_words.each do |tweeted_word| %>
+      <tr>
+        <td><%= link_to tweeted_word.id, tweeted_word_path(tweeted_word) %></td>
+        <td><%= tweeted_word.word %></td>
+        <td><%= tweeted_word.lat %></td>
+        <td><%= tweeted_word.lng %></td>
+        <td><%= tweeted_word.tweet_id %></td>
+        <td><%=l tweeted_word.created_at %></td>
+        <td>
+          <%= link_to t('.edit', :default => t("helpers.links.edit")),
+                      edit_tweeted_word_path(tweeted_word), :class => 'btn btn-mini' %>
+          <%= link_to t('.destroy', :default => t("helpers.links.destroy")),
+                      tweeted_word_path(tweeted_word),
+                      :method => :delete,
+                      :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')),
+                      :class => 'btn btn-mini btn-danger' %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
 </table>
-
-<br />
-
-<%= link_to 'New Tweeted word', new_tweeted_word_path %>
