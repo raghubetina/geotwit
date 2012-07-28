@@ -14,17 +14,19 @@ class TwitterReader
     end
     tweets << response["results"]
     
-    # while response["next_page"]
-    #   base_uri = "https://search.twitter.com/search.json"
-    #   query = response["next_page"]
-    #   uri = base_uri + query
-    #   
-    #   begin
-    #     response =  JSON.parse(open(uri).read)
-    #   rescue
-    #   end
-    #   tweets << response["results"]
-    # end
+    poll = 1
+    while response["next_page"] && poll < 5
+      base_uri = "https://search.twitter.com/search.json"
+      query = response["next_page"]
+      uri = base_uri + query
+      
+      begin
+        response =  JSON.parse(open(uri).read)
+      rescue
+      end
+      tweets << response["results"]
+      poll += 1
+    end
     
     return tweets.flatten.compact
   end
