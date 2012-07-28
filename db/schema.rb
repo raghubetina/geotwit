@@ -11,12 +11,12 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120728043207) do
+ActiveRecord::Schema.define(:version => 20120728162107) do
 
   create_table "tweeted_words", :force => true do |t|
     t.string   "word"
     t.float    "lat"
-    t.float    "lon"
+    t.float    "lng"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
     t.string   "tweet_id"

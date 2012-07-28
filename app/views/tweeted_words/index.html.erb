@@ -1,17 +1,24 @@
 <%= form_tag tweeted_words_url, :method => 'get' do %>
-  <%= text_field_tag :address, nil, :placeholder => "Address" %>
+  <%= text_field_tag :address, params[:address], :placeholder => "Words near here" %>
+  <%= text_field_tag :radius, params[:radius], :placeholder => "Within this many meters" %>
+  <%= submit_tag "Search Tweets" %>
+<% end %>
+
+<%= form_tag fetch_tweets_url do %>
+  <%= text_field_tag :address, params[:address], :placeholder => "Words near here" %>
+  <%= text_field_tag :radius, params[:radius], :placeholder => "Within this many meters" %>
   <%= submit_tag "Fetch Tweets" %>
 <% end %>
 
-<h1>Listing tweeted_words</h1>
-
-<h3><%= @tweeted_words.count %></h3>
-
+<h1>Frequencies (<%= @tweeted_words.count %>)</h1>
 <ol>
   <% @frequencies_sorted.reverse.each do |word_array|  %>
     <li><%= word_array[0] %>: <%= word_array[1].count %></li>
   <% end %>
 </ol>
+
+
+<h1>All Words Tweeted (<%= TweetedWord.count %>)</h1>
 
 <table>
   <tr>
@@ -24,11 +31,11 @@
     <th></th>
   </tr>
 
-<% @tweeted_words.each do |tweeted_word| %>
+<% TweetedWord.all.each do |tweeted_word| %>
   <tr>
     <td><%= tweeted_word.word %></td>
     <td><%= tweeted_word.lat %></td>
-    <td><%= tweeted_word.lon %></td>
+    <td><%= tweeted_word.lng %></td>
     <td><%= tweeted_word.tweet_id %></td>
     <td><%= link_to 'Show', tweeted_word %></td>
     <td><%= link_to 'Edit', edit_tweeted_word_path(tweeted_word) %></td>

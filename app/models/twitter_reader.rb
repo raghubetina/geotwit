@@ -1,11 +1,11 @@
 require 'open-uri'
 
 class TwitterReader
-  def self.geocoded_tweets(lat = 41.8883776, lon = -87.6365131, radius = 0.1, limit = 100)
+  def self.geocoded_tweets(lat = 41.8883776, lng = -87.6365131, radius = 0.1, limit = 100)
     tweets = []
     
     base_uri = "https://search.twitter.com/search.json"
-    query = "?geocode=#{lat},#{lon},#{radius}km&rpp=#{limit}"
+    query = "?geocode=#{lat},#{lng},#{radius}km&rpp=#{limit}"
     uri = base_uri + query
     
     begin

@@ -1,5 +1,5 @@
 Geotwit::Application.routes.draw do
-  root to: 'Pages#home'
+  root to: 'TweetedWords#index'
   
   post '/tweeted_words/fetch' => 'TweetedWords#fetch', :as => :fetch_tweets
   
