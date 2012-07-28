@@ -34,7 +34,7 @@ class TweetedWordsController < ApplicationController
     
     TweetedWord.fetch(lat, lng, radius)
     
-    redirect_to tweeted_words_url(:lat => lat, :lng => lng, :radius => radius)
+    redirect_to tweeted_words_url(:lat => lat, :lng => lng, :radius => radius, :address => address)
   end
   
   def index

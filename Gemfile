@@ -6,6 +6,8 @@ gem 'haversine'
 
 gem 'rails', '3.2.6'
 
+gem 'quiet_assets', :group => :development
+
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
 

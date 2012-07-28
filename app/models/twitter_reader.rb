@@ -8,24 +8,38 @@ class TwitterReader
     query = "?geocode=#{lat},#{lng},#{radius}km&rpp=#{limit}"
     uri = base_uri + query
     
+    response = open(uri).read
+    
     begin
-      response =  JSON.parse(open(uri).read)
+      json = JSON.parse(open(uri).read)
     rescue
+      json = {}
+      next_page_pos = response.index("next_page")
+      radius_pos = response.index("km\",")
+      json["next_page"] = response[(next_page_pos + 12)..(radius_pos + 1)]
     end
-    tweets << response["results"]
+    
+    tweets << json["results"]
     
     poll = 1
-    while response["next_page"] && poll < 3
-      base_uri = "https://search.twitter.com/search.json"
-      query = response["next_page"]
+    while json["next_page"] && poll < 5
+      ActiveRecord::Base.logger.debug "================ Fetching next page from Twitter. ================"
+      query = json["next_page"]
       uri = base_uri + query
       
       begin
-        response =  JSON.parse(open(uri).read)
+        json = JSON.parse(open(uri).read)
       rescue
+        json = {}
+        next_page_pos = response.index("next_page")
+        radius_pos = response.index("km\",")
+        json["next_page"] = response[(next_page_pos + 12)..(radius_pos + 1)]
       end
-      tweets << response["results"]
+      
+      tweets << json["results"]
       poll += 1
+      ActiveRecord::Base.logger.debug "========================================================"
+      ActiveRecord::Base.logger.debug uri
     end
     
     return tweets.flatten.compact
