@@ -1,0 +1,20 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Word:</b>
+  <%= @tweeted_word.word %>
+</p>
+
+<p>
+  <b>Lat:</b>
+  <%= @tweeted_word.lat %>
+</p>
+
+<p>
+  <b>Lon:</b>
+  <%= @tweeted_word.lon %>
+</p>
+
+
+<%= link_to 'Edit', edit_tweeted_word_path(@tweeted_word) %> |
+<%= link_to 'Back', tweeted_words_path %>

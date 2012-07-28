@@ -1,0 +1,29 @@
+<%= form_for(@tweeted_word) do |f| %>
+  <% if @tweeted_word.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@tweeted_word.errors.count, "error") %> prohibited this tweeted_word from being saved:</h2>
+
+      <ul>
+      <% @tweeted_word.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :word %><br />
+    <%= f.text_field :word %>
+  </div>
+  <div class="field">
+    <%= f.label :lat %><br />
+    <%= f.text_field :lat %>
+  </div>
+  <div class="field">
+    <%= f.label :lon %><br />
+    <%= f.text_field :lon %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

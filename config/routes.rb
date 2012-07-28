@@ -1,5 +1,7 @@
 Geotwit::Application.routes.draw do
-  root to: 'Pages#home'
+  resources :tweeted_words
+
+  root to: 'TweetedWords#index'
   
   get "pages/home"
 

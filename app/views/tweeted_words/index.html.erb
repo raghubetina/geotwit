@@ -1,0 +1,37 @@
+<h1>Listing tweeted_words</h1>
+
+<h3><%= @tweeted_words.count %></h3>
+
+<ul>
+<% @tweeted_words.group_by(&:word).each do |key, value| %>
+  <li><%= key %>: <%= value.count %></li>
+<% end %>
+</ul>
+
+<table>
+  <tr>
+    <th>Word</th>
+    <th>Lat</th>
+    <th>Lon</th>
+    <th>Tweet ID</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @tweeted_words.each do |tweeted_word| %>
+  <tr>
+    <td><%= tweeted_word.word %></td>
+    <td><%= tweeted_word.lat %></td>
+    <td><%= tweeted_word.lon %></td>
+    <td><%= tweeted_word.tweet_id %></td>
+    <td><%= link_to 'Show', tweeted_word %></td>
+    <td><%= link_to 'Edit', edit_tweeted_word_path(tweeted_word) %></td>
+    <td><%= link_to 'Destroy', tweeted_word, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Tweeted word', new_tweeted_word_path %>

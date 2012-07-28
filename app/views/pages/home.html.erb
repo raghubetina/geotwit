@@ -1,8 +1,9 @@
 <%= @response %>
 
 <h1><%= @tweets.count %> tweets found</h1>
+<h1><%= @tweets.count { |t| t["geo"].present? } %> geocoded tweets found</h1>
 <ol>
-<% @tweets.each do |result| %>
+<% @tweets.select { |t| t["geo"].present? }.each do |result| %>
   <li>"<%= result["text"] %>" <%= time_ago_in_words(result["created_at"]) %> ago</li>
 <% end %>
 </ol>
