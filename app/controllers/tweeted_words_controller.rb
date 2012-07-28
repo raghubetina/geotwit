@@ -32,7 +32,11 @@ class TweetedWordsController < ApplicationController
     lat = latlng ? latlng[0] : 41.8883776
     lng = latlng ? latlng[1] : -87.6365131
     
-    TweetedWord.fetch(lat, lng, radius)
+    lat = lat.to_f
+    lng = lng.to_f
+    radius = radius.to_f/100
+    
+    TwitterReader.geocoded_tweets(lat, lng, radius)
     
     redirect_to tweeted_words_url(:lat => lat, :lng => lng, :radius => radius, :address => address)
   end
