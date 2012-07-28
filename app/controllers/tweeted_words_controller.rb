@@ -38,7 +38,7 @@ class TweetedWordsController < ApplicationController
     
     TwitterReader.geocoded_tweets(lat, lng, radius)
     
-    redirect_to tweeted_words_url(:lat => lat, :lng => lng, :radius => radius, :address => address)
+    redirect_to tweeted_words_url(:lat => lat, :lng => lng, :radius => radius * 1000, :address => address)
   end
   
   def index
