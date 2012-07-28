@@ -27,7 +27,7 @@ class TweetedWordsController < ApplicationController
   
   def fetch
     address = params[:address].present? ? params[:address] : "222 W Merchandise Mart Plaza, Chicago, IL"
-    radius = params[:radius].present? ? params[:radius] : "50"
+    radius = params[:radius].present? ? params[:radius] : "100"
     latlng = geocode(address)
     lat = latlng ? latlng[0] : 41.8883776
     lng = latlng ? latlng[1] : -87.6365131
