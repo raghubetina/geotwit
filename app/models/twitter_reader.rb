@@ -23,7 +23,7 @@ class TwitterReader
     tweets << json["results"]
     
     poll = 1
-    while json["next_page"] && poll < 3
+    while json["next_page"]
       tweets = []
       ActiveRecord::Base.logger.debug "================ Fetching next page from Twitter. ================"
       query = json["next_page"]
