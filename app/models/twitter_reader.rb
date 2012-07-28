@@ -15,7 +15,7 @@ class TwitterReader
     tweets << response["results"]
     
     poll = 1
-    while response["next_page"] && poll < 5
+    while response["next_page"] && poll < 3
       base_uri = "https://search.twitter.com/search.json"
       query = response["next_page"]
       uri = base_uri + query
