@@ -66,7 +66,7 @@ class TweetedWordsController < ApplicationController
     @frequencies = @bins.map { |key, value| { key => value.length } }
     @frequencies_sorted = @frequencies.sort { |a, b| b.first[1] <=> a.first[1] }
     
-    @frequenices_filtered = @frequencies_sorted.reject { |h| h.first[1] < 3 }
+    @frequenices_filtered = @frequencies_sorted.reject { |h| h.first[1] < 2 }
     
     respond_to do |format|
       format.html # index.html.erb
